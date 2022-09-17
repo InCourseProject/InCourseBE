@@ -10,6 +10,7 @@ on:
     
 env:
   S3_BUCKET_NAME: dh-github-actions-s3-bucket
+  PROJECT_NAME: playground-logging
 
 
 jobs:
