@@ -14,7 +14,7 @@ env:
   PROJECT_NAME: playground-logging
   # CODE_DEPLOY_APPLICATION_NAME: deploy
   # CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: deploy-group-two
-  # 민식님 47년생이시니까 공경해드려야합니다!
+
 
 jobs:
   build:
