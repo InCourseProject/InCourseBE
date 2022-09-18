@@ -4,7 +4,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/dh-github-actions-s3-bucket/playground-logging/
+    destination: /home/dh-github-actions-s3-bucket/playground-logging/logging-system
 
     overwrite: yes
 
