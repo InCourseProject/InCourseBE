@@ -13,7 +13,7 @@ env:
   S3_BUCKET_NAME: dh-github-actions-s3-bucket
   PROJECT_NAME: playground-logging
   CODE_DEPLOY_APPLICATION_NAME: deploy
-  # CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: deploy-group
+  # CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: deploy-group-two
 
 jobs:
   build:
@@ -59,7 +59,7 @@ jobs:
           
         run: aws deploy create-deployment 
           --deployment-config-name CodeDeployDefault.AllAtOnce 
-          --deployment-group-name deploy-group
+          --deployment-group-name deploy-group-two
           --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
           --application-name deploy
 
