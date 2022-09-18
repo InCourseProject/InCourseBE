@@ -57,9 +57,9 @@ jobs:
           
         run: 
           aws deploy create-deployment 
-            --application-name develop
+            --application-name my-codedeploy-app
             --deployment-config-name CodeDeployDefault.AllAtOnce 
-            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} 
+            --deployment-group-name develop 
             --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
 
 
