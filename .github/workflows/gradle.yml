@@ -38,7 +38,7 @@ jobs:
         shell: bash
 
       - name: Make zip file
-        run: zip -r ./$GITHUB_SHA.zip .
+        run: zip -r ./GITHUB.zip .
         shell: bash
         
       - name: Configure AWS credentials
@@ -49,7 +49,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 ./GITHUB.zip s3://$S3_BUCKET_NAME/GITHUB.zip
         
       - name: Deploy to AWS EC2 from S3
         env:
@@ -60,7 +60,7 @@ jobs:
         run: aws deploy create-deployment 
           --deployment-config-name CodeDeployDefault.AllAtOnce 
           --deployment-group-name deploy-group-two
-          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+          --s3-location bucket=$S3_BUCKET_NAME,key=GITHUB.zip,bundleType=zip
           --application-name deploy
 
 
