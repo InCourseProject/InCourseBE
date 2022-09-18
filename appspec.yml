@@ -11,6 +11,6 @@ file_exists_behavior : OVERWRITE
 permissions:
   - object: /
     pattern: "**"
-    owner: dh-github-actions-s3-bucket
-    group: dh-github-actions-s3-bucket
+    owner: my-github-actions-iam-user
+    group: my-github-actions-iam-user
  
