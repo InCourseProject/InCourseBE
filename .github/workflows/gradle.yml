@@ -12,7 +12,7 @@ on:
 env:
   S3_BUCKET_NAME: dh-github-actions-s3-bucket
   PROJECT_NAME: playground-logging
-  CODE_DEPLOY_APPLICATION_NAME: deploy
+  # CODE_DEPLOY_APPLICATION_NAME: deploy
   # CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: deploy-group-two
 
 jobs:
@@ -52,10 +52,6 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./GITHUB.zip s3://$S3_BUCKET_NAME/GITHUB.zip
         
       - name: Deploy to AWS EC2 from S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
           
         run: aws deploy create-deployment 
           --deployment-config-name CodeDeployDefault.AllAtOnce 
