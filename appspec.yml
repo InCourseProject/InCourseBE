@@ -4,13 +4,13 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/dh-github-actions-s3-bucket/playground-logging/logging-system
+    destination: /home/ubuntu/logging-system
     overwrite: yes
 file_exists_behavior : OVERWRITE
 
 permissions:
   - object: /
     pattern: "**"
-    owner: dh-github-actions-s3-bucket
-    group: dh-github-actions-s3-bucket
+    owner: ubuntu
+    group: ubuntu
  
