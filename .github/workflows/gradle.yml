@@ -56,6 +56,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
           
-        run: aws deploy create-deployment --deployment-config-name CodeDeployDefault.AllAtOnce --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
-
-
+          run: aws deploy create-deployment --aplication-name deploy --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name deploy-group --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
