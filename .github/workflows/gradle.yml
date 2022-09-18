@@ -11,7 +11,8 @@ on:
 env:
   S3_BUCKET_NAME: dh-github-actions-s3-bucket
   PROJECT_NAME: playground-logging
-
+  CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-deployment-group
 
 jobs:
   build:
@@ -57,9 +58,9 @@ jobs:
           
         run: 
           aws deploy create-deployment 
-            --application-name my-codedeploy-app
+            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} 
             --deployment-config-name CodeDeployDefault.AllAtOnce 
-            --deployment-group-name my-codedeploy-deployment-group
+            --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }}
             --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
 
 
