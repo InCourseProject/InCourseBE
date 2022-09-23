@@ -1,26 +1,20 @@
 package com.example.week08.dto.request;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberRequestDto {
+public class LoginRequestDto {
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-z]+$")
     private String email;
 
-
     @NotBlank
-    @Size(min = 8, max = 20)
-    @Pattern(regexp = "[a-zA-Z\\d]*${8,20}")
     private String password;
-
 
 }

@@ -1,4 +1,66 @@
 package com.example.week08.controller;
 
+import com.example.week08.domain.UserDetailsImpl;
+import com.example.week08.dto.request.LoginRequestDto;
+import com.example.week08.dto.request.MemberImageRequestDto;
+import com.example.week08.dto.request.MemberRequestDto;
+import com.example.week08.dto.response.MemberResponseDto;
+import com.example.week08.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+
+
+@RequiredArgsConstructor
+@RestController
 public class MemberController {
+
+    private final MemberService memberService;
+
+    //회원가입
+    @PostMapping(value = "/api/member/signup")
+    public ResponseEntity<MemberResponseDto> signup(@RequestBody @Valid MemberRequestDto requestDto) {
+        memberService.createMember(requestDto);
+        return ResponseEntity.ok(new MemberResponseDto(true, "회원가입  성공"));
+    }
+
+    //로그인
+    @PostMapping(value = "/api/member/login")
+    public ResponseEntity<MemberResponseDto> login(@RequestBody @Valid LoginRequestDto requestDto, HttpServletResponse response) {
+        return memberService.login(requestDto, response);
+    }
+
+    //로그아웃
+    @GetMapping(value = "/api/auth/member/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        return memberService.logout(request);
+    }
+
+    //마이페이지
+    @GetMapping(value = "/api/auth/member/mypage/{email:.+}")
+    public ResponseEntity<?> mypage(@PathVariable String email, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return memberService.mypage(email, userDetails.getMember());
+    }
+
+    //멤버 이미지 업로드
+    @PostMapping(value = "/api/auth/member/mypage/imageupload")
+    public ResponseEntity<?> myImageUpload(@RequestPart(value = "image") MultipartFile image,
+                                           MemberImageRequestDto memberImageRequestDto,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        memberService.myImageUpload(memberImageRequestDto, image, userDetails.getMember());
+        return ResponseEntity.ok("업로드 성공");
+    }
+
+    @PostMapping(value = "/api/auth/member/mypage/follow")
+    public ResponseEntity<?> myfollow(@RequestParam(value = "email") String email,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        memberService.myfollow(email,userDetails.getMember());
+        return ResponseEntity.ok("팔로우 성공");
+    }
 }
