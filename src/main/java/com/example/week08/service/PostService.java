@@ -2,10 +2,7 @@ package com.example.week08.service;
 
 import com.example.week08.domain.Place;
 import com.example.week08.domain.Post;
-import com.example.week08.dto.request.PlacePutDto;
-import com.example.week08.dto.request.PostPlaceDto;
-import com.example.week08.dto.request.PostPlacePutDto;
-import com.example.week08.dto.request.PostRequestDto;
+import com.example.week08.dto.request.*;
 import com.example.week08.dto.response.PostResponseDto;
 import com.example.week08.errorhandler.BusinessException;
 import com.example.week08.errorhandler.ErrorCode;
@@ -19,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +87,44 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    // 메인 날씨/지역/계절/평점 기반 추천
+//    @Transactional(readOnly = true)
+//    public List<PostResponseDto> getRecommended(PostRecommendedDto requestDto) {
+//        Map<String, Object> searchKeys = new HashMap<>();
+//        //날씨값이 존재하면 해시맵에 키와 값을 넣는다
+//        if (requestDto.getWeather() != null) searchKeys.put("weather", requestDto.getWeather());
+//        //지역값이 존재하면 해시맵에 키와 값을 넣는다
+//        if (requestDto.getRegion() != null) searchKeys.put("region", requestDto.getRegion());
+//        //계절값이 존재하면 해시맵에 키와 값을 넣는다
+//        if (requestDto.getSeason() != null) searchKeys.put("season", requestDto.getSeason());
+//        // 평점평균값이 있으면 해시맵에 키와 값을 넣는다
+//        Post post = new Post(postRepository.getId(), searchKeys);
+//
+//        return postRepository.findAllByOrderByAvgScoreDesc(PostSpecification.searchPost(searchKeys))
+//                .stream()
+//                .map(PostResponseDto::new)
+//                .collect(Collectors.toList());
+
+        //나온 게시물목록을 평점 기반으로 내림차순 정렬함
+        //정렬한 목록에서 첫번째 게시물을 보내줌
+//    }
+
+    // 메인 날씨/지역/계절/평점 기반 추천
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getRecommended(PostRecommendedDto requestDto) {
+        Map<String, Object> searchKeys = new HashMap<>();
+        if (requestDto.getWeather() != null) searchKeys.put("weather", requestDto.getWeather());
+        if (requestDto.getRegion() != null) searchKeys.put("region", requestDto.getRegion());
+        if (requestDto.getSeason() != null) searchKeys.put("season", requestDto.getSeason());
+//        return postRepository.findTop5ByOrderByAvgScoreDesc(PostSpecification.searchPost(searchKeys))
+//                .stream()
+//                .map(PostResponseDto::new)
+//                .collect(Collectors.toList());
+        return postRepository.findTop5ByAvgScoreOrderByAvgScore(PostSpecification.searchPost(searchKeys))
+                .stream()
+                .map(p -> new PostResponseDto((Post) p))
+                .collect(Collectors.toList());
+    }
 
     // 코스 게시글 수정
     @Transactional

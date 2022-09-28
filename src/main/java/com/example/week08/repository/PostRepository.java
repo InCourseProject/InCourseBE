@@ -28,5 +28,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     @Override
     List<Post> findAll(Specification<Post> spec);
 
-
+//    List<Post> findAllByOrderByAvgScoreDesc(Specification<Post> spec);
+    List<Post> findTop5ByAvgScoreOrderByAvgScore(Specification<Post> spec);
 }
